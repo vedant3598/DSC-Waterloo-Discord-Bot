@@ -18,6 +18,13 @@ async def gcp(ctx):
     response = ""
     await ctx.send(response)
 
+
+# scrapes Google to find Google Developer tools
+@DSC_bot.command(name='Google Dev Tools')
+async def gcp(ctx):
+    response = ""
+    await ctx.send(response)
+
 # scrapes Google to find Google Internships
 @DSC_bot.command(name='Google Internships')
 async def gcp(ctx):
@@ -29,8 +36,6 @@ async def gcp(ctx):
 async def gcp(ctx):
     response = ""
     await ctx.send(response)
-
-    
 
 @DSC_bot.event
 async def on_member_join(member):
