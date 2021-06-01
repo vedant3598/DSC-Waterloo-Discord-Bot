@@ -33,7 +33,7 @@ async def gcp(ctx):
 
 # returns information about the server
 @DSC_bot.command(name='server info')
-async def gcp(ctx):
+async def server_info(ctx):
     guild = DSC_bot.fetch_guild(837526205540073502)
     channels = await guild.fetch_channels()
     members = await guild.fetch_members().flatten()
