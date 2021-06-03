@@ -3,10 +3,12 @@ import os
 from discord.ext import commands
 
 client = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
 # Add Discord Token here when bot is ready to be deployed
-TOKEN = 'ODQ4MzQyMTI2NDY2Njk1MjI4.YLLOLA.-n1I9cbuPGuNumfUhhkSINhMFLY'
+TOKEN = ''
 
-DSC_bot = commands.Bot(command_prefix='/')
+DSC_bot = commands.Bot(command_prefix='/', intents=intents)
 
 @DSC_bot.event
 async def on_ready():
@@ -33,7 +35,12 @@ async def gcp(ctx):
 @DSC_bot.command(name='server_info')
 async def server_info(ctx):
     guild = DSC_bot.fetch_guild(837526205540073502)
-    channels = await guild.fetch_channels()
+    
+    channels = []
+    for guild in DSC_bot.guilds:
+        for channel in guild.text_channels:
+            channels.append(channel)
+
     members = await guild.fetch_members().flatten()
     
     channels_message = discord.Embed(
