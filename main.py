@@ -4,7 +4,7 @@ from discord.ext import commands
 
 client = discord.Client()
 # Add Discord Token here when bot is ready to be deployed
-TOKEN = os.getenv('')
+TOKEN = 'ODQ4MzQyMTI2NDY2Njk1MjI4.YLLOLA.-n1I9cbuPGuNumfUhhkSINhMFLY'
 
 DSC_bot = commands.Bot(command_prefix='/')
 
@@ -13,14 +13,14 @@ async def on_ready():
     print('{} is connected & ready to rumble!'.format(DSC_bot.user.name))
 
 # Google Developer tools
-@DSC_bot.command(name='Google Developers')
+@DSC_bot.command(name='Google')
 async def gcp(ctx):
     google_dev = discord.Embed(
         title = 'Google Developers',
         description = "[https://developers.google.com/](https://developers.google.com/)",
         colour = discord.Colour.green()
     )
-    await ctx.send(google_dev)
+    await ctx.send(embed = google_dev)
 
 
 # scrapes Google to find Google Internships - will do later
@@ -30,7 +30,7 @@ async def gcp(ctx):
 #    await ctx.send(response)
 
 # returns information about the server
-@DSC_bot.command(name='server info')
+@DSC_bot.command(name='server_info')
 async def server_info(ctx):
     guild = DSC_bot.fetch_guild(837526205540073502)
     channels = await guild.fetch_channels()
@@ -48,8 +48,8 @@ async def server_info(ctx):
         colour = discord.Colour.orange()
     )
 
-    await ctx.send(channels_message)
-    await ctx.send(members_message)
+    await ctx.send(embed = channels_message)
+    await ctx.send(embed = members_message)
 
 @DSC_bot.event
 async def on_member_join(member):
@@ -64,4 +64,4 @@ async def on_member_join(member):
         "Say hi and introduce yourself in the introduction channel #" + intro_channel + "!"
     )
 
-client.run(TOKEN)
+DSC_bot.run(TOKEN)
