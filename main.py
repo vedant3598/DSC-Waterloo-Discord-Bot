@@ -12,17 +12,22 @@ DSC_bot = commands.Bot(command_prefix='/')
 async def on_ready():
     print('{} is connected & ready to rumble!'.format(DSC_bot.user.name))
 
-# scrapes Google to find Google Developer tools
-@DSC_bot.command(name='Google Dev Tools')
+# Google Developer tools
+@DSC_bot.command(name='Google Developers')
 async def gcp(ctx):
-    response = ""
-    await ctx.send(response)
+    google_dev = discord.Embed(
+        title = 'Google Developers',
+        description = "[https://developers.google.com/](https://developers.google.com/)",
+        colour = discord.Colour.green()
+    )
+    await ctx.send(google_dev)
 
-# scrapes Google to find Google Internships
-@DSC_bot.command(name='Google Internships')
-async def gcp(ctx):
-    response = ""
-    await ctx.send(response)
+
+# scrapes Google to find Google Internships - will do later
+#@DSC_bot.command(name='Google Internships')
+#async def gcp(ctx):
+#    response = ""
+#    await ctx.send(response)
 
 # returns information about the server
 @DSC_bot.command(name='server info')
