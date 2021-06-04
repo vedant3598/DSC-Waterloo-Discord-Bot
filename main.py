@@ -6,7 +6,8 @@ client = discord.Client()
 intents = discord.Intents.default()
 intents.members = True
 # Add Discord Token here when bot is ready to be deployed
-TOKEN = ''
+TOKEN = 'ODQ4MzQyMTI2NDY2Njk1MjI4.YLLOLA.-n1I9cbuPGuNumfUhhkSINhMFLY'
+guild_id = 837526205540073502
 
 DSC_bot = commands.Bot(command_prefix='/', intents=intents)
 
@@ -34,29 +35,18 @@ async def gcp(ctx):
 # returns information about the server
 @DSC_bot.command(name='server_info')
 async def server_info(ctx):
-    guild = DSC_bot.fetch_guild(837526205540073502)
+    guild = DSC_bot.fetch_guild(guild_id)
     
-    channels = []
-    for guild in DSC_bot.guilds:
-        for channel in guild.text_channels:
-            channels.append(channel)
+    # Will add guild information    
 
-    members = await guild.fetch_members().flatten()
-    
+
     channels_message = discord.Embed(
-        title = 'Channels',
-        description = channels,
-        colour = discord.Colour.orange()
-    )
-
-    members_message = discord.Embed(
-        title = 'Members',
-        description = members,
+        title = 'Server Info',
+        description = "",
         colour = discord.Colour.orange()
     )
 
     await ctx.send(embed = channels_message)
-    await ctx.send(embed = members_message)
 
 @DSC_bot.event
 async def on_member_join(member):
