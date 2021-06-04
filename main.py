@@ -5,9 +5,8 @@ from discord.ext import commands
 client = discord.Client()
 intents = discord.Intents.default()
 intents.members = True
-# Add Discord Token here when bot is ready to be deployed
+# Discord Token for DSC_bot
 TOKEN = 'ODQ4MzQyMTI2NDY2Njk1MjI4.YLLOLA.-n1I9cbuPGuNumfUhhkSINhMFLY'
-guild_id = 837526205540073502
 
 DSC_bot = commands.Bot(command_prefix='/', intents=intents)
 
@@ -35,18 +34,20 @@ async def gcp(ctx):
 # returns information about the server
 @DSC_bot.command(name='server_info')
 async def server_info(ctx):
-    guild = DSC_bot.fetch_guild(guild_id)
-    
-    # Will add guild information    
-
-
-    channels_message = discord.Embed(
+    server = discord.Embed(
         title = 'Server Info',
-        description = "",
         colour = discord.Colour.orange()
     )
+    
+    # Will add guild information
+    fields = [("ID", ctx.guild.id, True),
+            ("Owner", ctx.guild.owner, True)
+    ]    
 
-    await ctx.send(embed = channels_message)
+    for name, value, inline in fields:
+        server.add_field(name=name, value=value, inline=inline)
+
+    await ctx.send(embed = server)
 
 @DSC_bot.event
 async def on_member_join(member):
