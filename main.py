@@ -1,14 +1,32 @@
 import discord
 import os
 from discord.ext import commands
+from discord.ext.commands.errors import CommandNotFound
 
 client = discord.Client()
 intents = discord.Intents.default()
 intents.members = True
 # Discord Token for DSC_bot
-TOKEN = 'ODQ4MzQyMTI2NDY2Njk1MjI4.YLLOLA.-n1I9cbuPGuNumfUhhkSINhMFLY'
+TOKEN = 'DISCORD_TOKEN'
 
 DSC_bot = commands.Bot(command_prefix='/', intents=intents)
+
+def help_commands():
+    help_embed = discord.Embed(
+        title = 'Commands List',
+        description = "Commands DSC_bot accepts",
+        colour = discord.Colour.blue()
+    )
+
+    fields = [("/google_dev", "Link to Google Developer Tools site", False),
+            ("/google_internships", "Link to Google Internships site", False),
+            ("/server_info", "Prints information about server", False)]
+
+    for name, value, inline in fields:
+        help_embed.add_field(name=name, value=value, inline=inline)
+
+    return help_embed
+
 
 @DSC_bot.event
 async def on_ready():
@@ -16,7 +34,7 @@ async def on_ready():
 
 # Google Developer tools
 @DSC_bot.command(name='google_dev')
-async def gcp(ctx):
+async def google_developers(ctx):
     google_dev = discord.Embed(
         title = 'Google Developers',
         description = "[https://developers.google.com/](https://developers.google.com/)",
@@ -24,15 +42,20 @@ async def gcp(ctx):
     )
     await ctx.send(embed = google_dev)
 
-# Google Developer tools
+# Google internships page
 @DSC_bot.command(name='google_internships')
-async def gcp(ctx):
+async def google_intern(ctx):
     google_internships = discord.Embed(
         title = 'Google Internships',
         description = "[https://careers.google.com/students/](https://careers.google.com/students/)",
         colour = discord.Colour.blue()
     )
     await ctx.send(embed = google_internships)
+
+# help command
+@DSC_bot.command(name='commands')
+async def help_output(ctx):
+    await ctx.send(embed = help_commands())
 
 # returns information about the server
 @DSC_bot.command(name='server_info')
@@ -47,7 +70,6 @@ async def server_info(ctx):
                 len(list(filter(lambda x: str(x.status) == "dnd", ctx.guild.members))),
                 len(list(filter(lambda x: str(x.status) == "idle", ctx.guild.members)))]
 
-    # Will add guild information
     fields = [("ID", ctx.guild.id, True),
             ("Owner", ctx.guild.owner, True),
             ("Members", len(ctx.guild.members), True),
@@ -55,13 +77,21 @@ async def server_info(ctx):
             ("Bots", (len(list(filter(lambda x: x.bot, ctx.guild.members)))), True),
             ("Text Channels", len(ctx.guild.text_channels), True),
             ("Voice Channels", len(ctx.guild.voice_channels), True),
-            ("Statuses", f"🟢{statuses[0]} 😴{statuses[1]}  🔴{statuses[2]}  🌙{statuses[3]}", True)
+            ("Statuses", f"🟢{statuses[0]} 😴{statuses[1]}  🔴{statuses[2]}  🌙{statuses[3]}", True),
+            ("Command Prefix", "\\", True)
     ]    
 
     for name, value, inline in fields:
         server.add_field(name=name, value=value, inline=inline)
 
     await ctx.send(embed = server)
+
+# incorrect command points user to all possible commands the bot accepts
+@DSC_bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        await ctx.send(embed = help_commands())
+
 
 @DSC_bot.event
 async def on_member_join(member):
