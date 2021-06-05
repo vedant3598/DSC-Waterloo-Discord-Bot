@@ -41,7 +41,13 @@ async def server_info(ctx):
     
     # Will add guild information
     fields = [("ID", ctx.guild.id, True),
-            ("Owner", ctx.guild.owner, True)
+            ("Owner", ctx.guild.owner, True),
+            ("Members", len(ctx.guild.members), True),
+            ("Humans", (), True),
+            ("Bots", (), True),
+            ("Text Channels", len(ctx.guild.text_channels), True),
+            ("Voice Channels", len(ctx.guild.voice_channels), True),
+            ("Statuses")
     ]    
 
     for name, value, inline in fields:
