@@ -15,7 +15,7 @@ async def on_ready():
     print('{} is connected & ready to rumble!'.format(DSC_bot.user.name))
 
 # Google Developer tools
-@DSC_bot.command(name='Google')
+@DSC_bot.command(name='google_dev')
 async def gcp(ctx):
     google_dev = discord.Embed(
         title = 'Google Developers',
@@ -24,12 +24,15 @@ async def gcp(ctx):
     )
     await ctx.send(embed = google_dev)
 
-
-# scrapes Google to find Google Internships - will do later
-#@DSC_bot.command(name='Google Internships')
-#async def gcp(ctx):
-#    response = ""
-#    await ctx.send(response)
+# Google Developer tools
+@DSC_bot.command(name='google_internships')
+async def gcp(ctx):
+    google_internships = discord.Embed(
+        title = 'Google Internships',
+        description = "[https://careers.google.com/students/](https://careers.google.com/students/)",
+        colour = discord.Colour.blue()
+    )
+    await ctx.send(embed = google_internships)
 
 # returns information about the server
 @DSC_bot.command(name='server_info')
@@ -39,15 +42,20 @@ async def server_info(ctx):
         colour = discord.Colour.orange()
     )
     
+    statuses = [len(list(filter(lambda x: str(x.status) == "online", ctx.guild.members))),
+                len(list(filter(lambda x: str(x.status) == "offline", ctx.guild.members))),
+                len(list(filter(lambda x: str(x.status) == "dnd", ctx.guild.members))),
+                len(list(filter(lambda x: str(x.status) == "idle", ctx.guild.members)))]
+
     # Will add guild information
     fields = [("ID", ctx.guild.id, True),
             ("Owner", ctx.guild.owner, True),
             ("Members", len(ctx.guild.members), True),
-            ("Humans", (), True),
-            ("Bots", (), True),
+            ("Humans", len(list(filter(lambda x: not x.bot, ctx.guild.members))), True),
+            ("Bots", (len(list(filter(lambda x: x.bot, ctx.guild.members)))), True),
             ("Text Channels", len(ctx.guild.text_channels), True),
             ("Voice Channels", len(ctx.guild.voice_channels), True),
-            ("Statuses")
+            ("Statuses", f"🟢{statuses[0]} 😴{statuses[1]}  🔴{statuses[2]}  🌙{statuses[3]}", True)
     ]    
 
     for name, value, inline in fields:
