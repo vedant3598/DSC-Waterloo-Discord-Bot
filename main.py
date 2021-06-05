@@ -95,15 +95,17 @@ async def on_command_error(ctx, error):
 
 @DSC_bot.event
 async def on_member_join(member):
-    channel = DSC_bot.get_channel(837526205540073506)
-    intro_channel = DSC_bot.get_channel(848759566635499570)
-    # Figure out how to link other channels in message
-    await channel.send(
-        "Hello {}! Welcome to the Google Developer Student Clubs, University of Waterloo chapter discord server." +
-        "Please read our rules at the top of this channel".format(member.name)
+    channel_introduction_id = discord.utils.get(member.guild.channels, name='introduction')
+    welcome_rules_introduction_id = discord.utils.get(member.guild.channels, name='welcome-and-rules')
+
+    channel_introduction = DSC_bot.get_channel(channel_introduction_id)
+    welcome_rules_channel = DSC_bot.get_channel(welcome_rules_introduction_id)
+    await channel_introduction.send(
+        f"Hello {member.name}! Welcome to the Google Developer Student Clubs, University of Waterloo chapter discord server." +
+        "Please read our rules at the top of this channel"
     )
-    await channel.send(
-        "Say hi and introduce yourself in the introduction channel #" + intro_channel + "!"
+    await channel_introduction.send(
+        "Say hi and introduce yourself in the introduction channel #" + welcome_rules_channel + "!"
     )
 
 DSC_bot.run(TOKEN)
